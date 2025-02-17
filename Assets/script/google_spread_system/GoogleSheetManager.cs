@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System.Collections;
+using UnityEngine.SceneManagement; 
 
 public class GoogleSheetManager : MonoBehaviour
 {
     public InputField nameInputField;
     public InputField passwordInputField;
     public Text statusText;
-    private string googleScriptURL = "https://script.google.com/macros/s/AKfycbymEGRcpqSebFzW_LmKV3kpb5FxwSeCdCE67GrRFmmuQoNHHgyS_jPGuHau5eB_K-TT2g/exec"; // 최신 GAS 배포 URL
+    private string googleScriptURL = "https://script.google.com/macros/s/AKfycbyFybZ-x7fDSpSorW2Lux3nRV7YJkwmCYz_5hiDe009AZoGutqGElHrcO1EhKNrCLWUCw/exec"; // 최신 GAS 배포 URL
 
     public void OnLoginButtonClicked()
     {
@@ -45,6 +46,8 @@ public class GoogleSheetManager : MonoBehaviour
                 if (response.Contains("\"response\":\"success\""))
                 {
                     statusText.text = "로그인 성공!";
+                    yield return new WaitForSeconds(1f); // UI 갱신을 위한 짧은 대기
+                    SceneManager.LoadScene("SampleScene");
                 }
                 else if (response.Contains("\"response\":\"fail: incorrect password\""))
                 {
