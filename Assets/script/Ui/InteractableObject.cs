@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InteractableObject : MonoBehaviour
 {
@@ -55,5 +56,6 @@ public class InteractableObject : MonoBehaviour
     {
         // 실제 게임 시작 로직을 여기에 추가
         Debug.Log("게임이 시작되었습니다!");
+        SceneManager.LoadScene("a1Scene");
     }
 }
