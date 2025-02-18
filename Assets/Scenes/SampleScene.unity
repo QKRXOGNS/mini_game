@@ -247,6 +247,9 @@ MonoBehaviour:
   tilemapLayer:
     serializedVersion: 2
     m_Bits: 2
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 2
 --- !u!50 &209446355
 Rigidbody2D:
   serializedVersion: 4

@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Vector2 movement;
     public LayerMask tilemapLayer;
+    public LayerMask obstacleLayer;
 
     private float prevSpeed = -1f; // 🔹 이전 Speed 값 저장 (초기값 -1)
 
@@ -70,6 +71,11 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.velocity = Vector2.zero; // 🔹 이동 불가능한 경우 속도를 완전히 0으로
+        }
+        
+        bool IsObstacle(Vector2 targetPos)
+        {
+            return Physics2D.OverlapCircle(targetPos, 0.2f, obstacleLayer);
         }
     }
 
