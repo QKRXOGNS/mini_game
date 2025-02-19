@@ -7,35 +7,26 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
     private Vector2 movement;
-    public LayerMask tilemapLayer;
-    public LayerMask obstacleLayer;
-
-    private float prevSpeed = -1f; // 🔹 이전 Speed 값 저장 (초기값 -1)
+    private float prevSpeed = -1f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
-        // 🔹 중력 제거
         rb.gravityScale = 0f;
     }
 
     void Update()
     {
-        // WASD 입력 받기
+        // WASD 또는 방향키 입력 받기
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        Debug.Log("Movement Input: " + movement); // 입력 상태 확인
-        Debug.Log("Horizontal Input: " + Input.GetAxisRaw("Horizontal")); // 수평 입력 확인
-        Debug.Log("Vertical Input: " + Input.GetAxisRaw("Vertical")); // 수직 입력 확인
-
         // 이동 방향 정규화
-        movement = movement.normalized;
+        movement.Normalize();
 
-        // 방향 전환 (A → 왼쪽 / D → 오른쪽)
+        // 방향 전환
         if (movement.x > 0)
         {
             spriteRenderer.flipX = false; 
@@ -60,35 +51,16 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
         }
-
-        // 현재 애니메이션 상태 확인
-        Debug.Log("Current Animation State: " + animator.GetCurrentAnimatorStateInfo(0).IsName("Run"));
     }
 
     void FixedUpdate()
     {
-        // 🔹 이동할 위치 계산
-        Vector2 nextPosition = rb.position + movement * moveSpeed * Time.fixedDeltaTime;
-
-        // 🔹 이동할 위치가 발판 위인지 확인
-        if (IsOnTilemap(nextPosition))
-        {
-            rb.MovePosition(nextPosition);
-        }
-        else
-        {
-            rb.velocity = Vector2.zero; // 🔹 이동 불가능한 경우 속도를 완전히 0으로
-        }
-        
-        bool IsObstacle(Vector2 targetPos)
-        {
-            return Physics2D.OverlapCircle(targetPos, 0.2f, obstacleLayer);
-        }
+        // Rigidbody2D를 사용하여 이동
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
     bool IsOnTilemap(Vector2 targetPos)
     {
-        // 🔹 Raycast를 사용하여 Tilemap 레이어 확인
         RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f, LayerMask.GetMask("Tilemap"));
         return hit.collider != null;
     }
