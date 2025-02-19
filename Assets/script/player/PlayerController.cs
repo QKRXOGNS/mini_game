@@ -24,14 +24,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // 🔹 WASD 입력 받기
+        // WASD 입력 받기
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        // 🔹 이동 방향 정규화
+        Debug.Log("Movement Input: " + movement); // 입력 상태 확인
+        Debug.Log("Horizontal Input: " + Input.GetAxisRaw("Horizontal")); // 수평 입력 확인
+        Debug.Log("Vertical Input: " + Input.GetAxisRaw("Vertical")); // 수직 입력 확인
+
+        // 이동 방향 정규화
         movement = movement.normalized;
 
-        // 🔹 방향 전환 (A → 왼쪽 / D → 오른쪽)
+        // 방향 전환 (A → 왼쪽 / D → 오른쪽)
         if (movement.x > 0)
         {
             spriteRenderer.flipX = false; 
@@ -41,21 +45,24 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
         }
 
-        // 🔹 Speed 값 계산
+        // Speed 값 계산
         float speedValue = movement.sqrMagnitude;
 
-        // 🔹 **Speed 값이 이전 값과 다를 때만 업데이트**
+        // Speed 값이 이전 값과 다를 때만 업데이트
         if (Mathf.Abs(speedValue - prevSpeed) > 0.01f)
         {
             animator.SetFloat("Speed", speedValue);
-            prevSpeed = speedValue; // 🔹 이전 값 업데이트
+            prevSpeed = speedValue; // 이전 값 업데이트
         }
 
-        // 🔹 이동하지 않으면 Rigidbody 속도 제거
+        // 이동하지 않으면 Rigidbody 속도 제거
         if (speedValue == 0)
         {
             rb.velocity = Vector2.zero;
         }
+
+        // 현재 애니메이션 상태 확인
+        Debug.Log("Current Animation State: " + animator.GetCurrentAnimatorStateInfo(0).IsName("Run"));
     }
 
     void FixedUpdate()
@@ -82,7 +89,7 @@ public class PlayerController : MonoBehaviour
     bool IsOnTilemap(Vector2 targetPos)
     {
         // 🔹 Raycast를 사용하여 Tilemap 레이어 확인
-        RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f, tilemapLayer);
+        RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero, 0.1f, LayerMask.GetMask("Tilemap"));
         return hit.collider != null;
     }
 }

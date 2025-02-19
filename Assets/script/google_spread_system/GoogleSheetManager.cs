@@ -9,7 +9,7 @@ public class GoogleSheetManager : MonoBehaviour
     public InputField nameInputField;
     public InputField passwordInputField;
     public Text statusText;
-    private string googleScriptURL = "https://script.google.com/macros/s/AKfycbyFybZ-x7fDSpSorW2Lux3nRV7YJkwmCYz_5hiDe009AZoGutqGElHrcO1EhKNrCLWUCw/exec"; // 최신 GAS 배포 URL
+    private string googleScriptURL = "https://script.google.com/macros/s/AKfycbwqZaVk-oQuw62ZBCYCsilrUnED6w2NpcbXGH44T9nLU9l4_6J3WRBCOf2ESrLgcpMTMg/exec"; // 최신 GAS 배포 URL
 
     public void OnLoginButtonClicked()
     {
