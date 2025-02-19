@@ -25,6 +25,7 @@ public class floppy_bird : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("Game Over!");
+            GameManager.instance.GameOver();
         }
     }
 }
